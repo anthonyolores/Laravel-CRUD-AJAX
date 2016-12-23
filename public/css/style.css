@@ -1,0 +1,14 @@
+body
+{
+	background-color: #fff;
+	padding-top: 50px;
+}
+h2
+{
+	padding-bottom: 20px;
+}
+.reg-col {background-color: #fff; padding: 50px;}
+.list-col {background-color: #efefef; padding: 20px;}
+.strong   {  color:green;}
+.medium   {  color:blue;}
+.weak     {  color:red;}
