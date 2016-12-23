@@ -1,27 +1,84 @@
-# Laravel PHP Framework
+Laravel  5.4 CRUD using AngularJS and AJAX
+=====================
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+This laravel project contains the frontend and backend implementation on how to manipulate MySQL database( CRUD) using laravel's MVC framework and AngularJS for client side validation.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+----------
+> **Note:**  Assumed you have installed web server in your machine. In this example I used XAMPP for my windows machine.*
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+1. Create Laravel project
+-------------
 
-## Official Documentation
+Laravel is a php open-source web framework that can be downloaded online. Use composer as a package manager to download necessary libraries for laravel project.
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+###1.1 Download composer and install in your system
 
-## Contributing
+>  https://getcomposer.org/download/
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+###1.2. Execute command to download laravel based project
 
-## Security Vulnerabilities
+ - Open command line interface
+ - Set the current directory to where you want to save your laravel project. In my case since I used XAMPP it will be on "c:/program files/xampp/htdocs"
+ - Enter  command  `composer create-project laravel/laravel Project Name`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+###1.3. Database Migration
 
-## License
+Create a migration class to manage database. In this example "registration" database was manually created.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+ - Set up database connection by editing laravel project/.env file
+ 
+     DB_CONNECTION=mysql
+    DB_HOST=localhost
+    DB_PORT=3306
+    DB_DATABASE=registration
+    DB_USERNAME=root
+    DB_PASSWORD=
+    
+ -	Enter command `php artisan make:migration create_user_table`
+ -	Under laravel project/database/migration folder a migration class will be created. It contains two methods, one is "up" method to upgrade database from its current state and second is "down" method to downgrade. Since this is a fresh project we will focus on upgrading our database. Add this code to "up" method.
+ 
+
+     public function up()
+    {
+      Schema::create('registrationtable', function (Blueprint $table) {
+      $table->increments('id');
+      $table->string('firstname');
+      $table->string('lastname');
+      $table->string('username');
+      $table->string('email');
+      $table->string('password');
+      $table->integer('age');
+      $table->timestamps();
+      });
+    }
+
+ -	Enter  command  `php artisan migrate` to start migration
+
+###1.4 Create a model for the newly created table
+
+ - Enter command `php artisan make:model ModelName` //RegUser
+ -	Under laravel project/app/ a new model class is created.  Change the class code to this
+
+     class RegUser extends Model
+    {
+        protected $table ='registrationtable';
+    }
+
+###1.5 Views
+
+Create your views or web pages that will be shown in client side. All resources accessible to client must be stored in laravel project/public. These are the following view files involved:
+
+ - master.php - html forms, fields, etc.
+ -  css/style.css - css style for master.php
+ - js/script.css - AngularJS validation and AJAX
+
+> **Note:**  When you visit your laravel project on browser you are required to specifically locate the public folder which is set by the framework. Example "http://localhost/laravelproject/public/index.php". To remove the "public" in URL. Just rename the "server.php" to "index.php" under project's root folder. Basically to make "server.php" as the entry point page, while "server.php" contains a script to redirect the user going to public resource. Also place ".htaccess" in root folder to make apache gain access to your web resources configuration.
+
+2. Create Controller class
+-------------
+
+Enter command `php artisan make:controller ControllerName` //RegistrationController. Controller class will be created under laravel project/app/http/controllers folder. Please see code
+
+3. Set Route Configuration
+-------------
+Set route configuration in laravel project/routes/web.php by adding this code.
