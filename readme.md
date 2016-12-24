@@ -83,9 +83,10 @@ Enter command `php artisan make:controller ControllerName` //RegistrationControl
 -------------
 Set route configuration in laravel project/routes/web.php by adding this code.
 
-Route::group(['middleware' => ['web']], function() {
-  Route::get('/all','RegisterController@Index');
-  Route::post( '/addItem', 'RegisterController@addItem' );
-  Route::post( '/deleteItem', 'RegisterController@deleteItem' );
-  Route::post( '/updateItem', 'RegisterController@updateItem' );
+Route::group(['middleware' => ['web']], function() 
+{
+Route::get('/all','RegisterController@Index');
+Route::post( '/addItem', 'RegisterController@addItem' );
+Route::post( '/deleteItem', 'RegisterController@deleteItem' );
+Route::post( '/updateItem', 'RegisterController@updateItem' );
 });
